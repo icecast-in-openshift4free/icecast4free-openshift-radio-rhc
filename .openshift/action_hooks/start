@@ -9,6 +9,10 @@ kill -9 `lsof -t -i :8080`
 kill -9 `lsof -t -i :80`
 kill -9 `lsof -t -i :15001`
 kill -9 `lsof -t -i :15002`
+
+
+
+
 nohup sh -c " ${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/nginx/sbin/nginx -c ${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/nginx/conf/nginx.conf" > ${OPENSHIFT_LOG_DIR}/server-template.log 2>&1 &
 
 nohup sh -c "$OPENSHIFT_REPO_DIR/srv/icecast/bin/icecast -c $OPENSHIFT_REPO_DIR/srv/icecast/etc/icecast.xml -b  "    >  $OPENSHIFT_LOG_DIR/iccast_run.log 2>&1 &
@@ -22,3 +26,37 @@ rm -rf  $OPENSHIFT_REPO_DIR/srv/icecast/var/log/icecast/icegen1.log
 nohup sh -c "$OPENSHIFT_REPO_DIR/srv/icegenerator/bin/icegenerator -f $OPENSHIFT_REPO_DIR/srv/icecast/etc/icegen1.cfg "    >  $OPENSHIFT_LOG_DIR/icegenerator_run1.log 2>&1 &
 cat $OPENSHIFT_REPO_DIR/srv/icecast/var/log/icecast/icegen1.log
 
+
+
+sleep 2m # Waits 2 minutes.
+#read -p "URL to check: " url
+export url="http://"${OPENSHIFT_GEAR_DNS}
+echo $url
+
+if curl --output /dev/null --silent --head --fail "$url"; then
+  printf '%s\n' "$url exist"
+else
+  printf '%s\n' "$url does not exist we rearrenge conf files see:
+ ${OPENSHIFT_LOG_DIR}/server-ip-changed.log 
+ or
+ ${OPENSHIFT_HOMEDIR}/app-root/runtime/repo/new-radiostation/install-nginx-radio-internet-centos-openshift-if-ip-changed-start.sh"
+
+ nohup sh -c " ${OPENSHIFT_HOMEDIR}/app-root/runtime/repo/new-radiostation/install-nginx-radio-internet-centos-openshift-if-ip-changed-start.sh" > ${OPENSHIFT_LOG_DIR}/server-ip-changed.log 2>&1 &
+
+  
+  kill -9 `lsof -t -i :8080`
+  kill -9 `lsof -t -i :80`
+  kill -9 `lsof -t -i :15001`
+  kill -9 `lsof -t -i :15002`
+  nohup sh -c " ${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/nginx/sbin/nginx -c ${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/nginx/conf/nginx.conf" > ${OPENSHIFT_LOG_DIR}/server-template.log 2>&1 &
+
+  nohup sh -c "$OPENSHIFT_REPO_DIR/srv/icecast/bin/icecast -c $OPENSHIFT_REPO_DIR/srv/icecast/etc/icecast.xml -b  "    >  $OPENSHIFT_LOG_DIR/iccast_run.log 2>&1 &
+
+  export LD_LIBRARY_PATH=$OPENSHIFT_REPO_DIR/srv/libshout/lib/:$LD_LIBRARY_PATH;
+
+  rm -rf  $OPENSHIFT_REPO_DIR/srv/icecast/var/log/icecast/icegen1.log
+  nohup sh -c "$OPENSHIFT_REPO_DIR/srv/icegenerator/bin/icegenerator -f $OPENSHIFT_REPO_DIR/srv/icecast/etc/icegen1.cfg "    >  $OPENSHIFT_LOG_DIR/icegenerator_run1.log 2>&1 &
+  cat $OPENSHIFT_REPO_DIR/srv/icecast/var/log/icecast/icegen1.log
+
+
+fi

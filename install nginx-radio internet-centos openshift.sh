@@ -245,9 +245,9 @@ http {
 		keepalive 3;
 		
     }
-	upstream comment {
+	upstream github {
 		
-		server  community.lasa.ir;
+		server  github.com;
 	}
 	limit_req_zone $binary_remote_addr zone=one:10m rate=30r/m;
 	limit_req_zone $binary_remote_addr zone=one2:10m rate=1r/m;
@@ -316,7 +316,11 @@ http {
 			proxy_pass http://onair/$1$is_args$args;
 		}
 		
-		
+		location /github {
+			proxy_set_header Host $OPENSHIFT_GEAR_DNS;
+			#proxy_redirect  http://ff.rhcloud.com/ http://lasa2.rhcloud.com/;
+			proxy_pass http://github/$1$is_args$args;
+		}
 		
 		
 
@@ -651,7 +655,7 @@ cat <<EOT >> $OPENSHIFT_REPO_DIR/srv/icecast/etc/icecast.xml
     
     <relay> <!-- Remote Server for on demand relay -->
        <server>hostname_localhost</server>
-       <port>8080</port>
+       <port>8000</port>
        <mount>/radiostation3</mount>
        <local-mount>/remotemount</local-mount> <!-- can change name if wanted -->
        <on-demand>1</on-demand>
@@ -700,7 +704,7 @@ EOT
 sed -i 's/hostname_localhost/'${OPENSHIFT_GEAR_DNS}'/g'  $OPENSHIFT_REPO_DIR/srv/icecast/etc/icecast.xml
 sed -i 's/localhost/'${OPENSHIFT_DIY_IP}'/g'  $OPENSHIFT_REPO_DIR/srv/icecast/etc/icecast.xml
 sed -i 's/$OPENSHIFT_REPO_DIR/srv/'${OPENSHIFT_REPO_DIR}'/g'  $OPENSHIFT_REPO_DIR/srv/icecast/etc/icecast.xml
-sed -i 's/8000/8080/g'  $OPENSHIFT_REPO_DIR/srv/icecast/etc/icecast.xml
+sed -i 's/8000/15001/g'  $OPENSHIFT_REPO_DIR/srv/icecast/etc/icecast.xml
 #sed -i 's/hostname_localhost/54.172.97.196/g'  $OPENSHIFT_REPO_DIR/srv/icecast/etc/icecast.xml
 
 
@@ -793,7 +797,7 @@ EOT
 	sed -i 's/hostname_localhost/'${OPENSHIFT_GEAR_DNS}'/g'  $OPENSHIFT_REPO_DIR/srv/ices/ices1.xml
 	sed -i 's/localhost/'${OPENSHIFT_DIY_IP}'/g'  $OPENSHIFT_REPO_DIR/srv/ices/ices1.xml
 	sed -i 's/$OPENSHIFT_REPO_DIR/srv/'${OPENSHIFT_REPO_DIR}'/g'  $OPENSHIFT_REPO_DIR/srv/ices/ices1.xml
-	sed -i 's/8000/8080/g' $OPENSHIFT_REPO_DIR/srv/ices/ices1.xml
+	sed -i 's/8000/15001/g' $OPENSHIFT_REPO_DIR/srv/ices/ices1.xml
 
 fi
 
@@ -820,7 +824,7 @@ ls -lah $OPENSHIFT_REPO_DIR/srv/icegenerator/bin/ice*
  #IP=192.168.1.100 SHUFFLE=0 for linear writing SHUFFLE=1 for random 
 cat <<EOT > $OPENSHIFT_REPO_DIR/srv/icegenerator/icegen1.cfg
 IP=OPENSHIFT_DIY_IP
-PORT=8080
+PORT=8000
 SERVER=2
 MOUNT=/radiostation1
 PASSWORD=password
@@ -841,8 +845,9 @@ EOT
 sed -i 's/OPENSHIFT_GEAR_DNS/'${OPENSHIFT_GEAR_DNS}'/g'  $OPENSHIFT_REPO_DIR/srv/icegenerator/icegen1.cfg
 sed -i 's/OPENSHIFT_REPO_DIR/'${OPENSHIFT_REPO_DIR}'/g'  $OPENSHIFT_REPO_DIR/srv/icegenerator/icegen1.cfg
 sed -i 's/OPENSHIFT_DIY_IP/'${OPENSHIFT_DIY_IP}'/g'  $OPENSHIFT_REPO_DIR/srv/icegenerator/icegen1.cfg
+sed -i 's/8000/15001/g' $OPENSHIFT_REPO_DIR/srv/icegenerator/icegen1.cfg
 cat $OPENSHIFT_REPO_DIR/srv/icegenerator/icegen1.cfg
-
+cp  $OPENSHIFT_REPO_DIR/srv/icegenerator/icegen1.cfg $OPENSHIFT_REPO_DIR/srv/icecast/etc/icegen1.cfg
 
 mkdir $OPENSHIFT_REPO_DIR/srv/lame
 cd /tmp
@@ -942,6 +947,7 @@ nohup sh -c "$OPENSHIFT_REPO_DIR/srv/icecast/bin/icecast -c $OPENSHIFT_REPO_DIR/
 export LD_LIBRARY_PATH=$OPENSHIFT_REPO_DIR/srv/libshout/lib/:$LD_LIBRARY_PATH;
 
 rm -rf  $OPENSHIFT_REPO_DIR/srv/icecast/var/log/icecast/icegen1.log
+nohup sh -c "$OPENSHIFT_REPO_DIR/srv/icegenerator/bin/icegenerator -f $OPENSHIFT_REPO_DIR/srv/icegenerator/icegen1.cfg   "    >  $OPENSHIFT_LOG_DIR/icegenerator_run1.log 2>&1 &
 nohup sh -c "$OPENSHIFT_REPO_DIR/srv/icegenerator/bin/icegenerator -f $OPENSHIFT_REPO_DIR/srv/icecast/etc/icegen1.cfg "    >  $OPENSHIFT_LOG_DIR/icegenerator_run1.log 2>&1 &
 cat $OPENSHIFT_REPO_DIR/srv/icecast/var/log/icecast/icegen1.log
 
