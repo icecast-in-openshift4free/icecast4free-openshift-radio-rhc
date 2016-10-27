@@ -874,7 +874,7 @@ export PATH=$OPENSHIFT_REPO_DIR/srv/SoX/bin:$PATH
 #$OPENSHIFT_REPO_DIR/srv/icecast/playlist2.m3u
 mkdir $OPENSHIFT_REPO_DIR/srv/icecast/music
 mkdir $OPENSHIFT_REPO_DIR/srv/icecast/music/album
-
+: '
 cd $OPENSHIFT_REPO_DIR/srv/icecast/music/album
 #wget http://www.mediafire.com/download/m79b6et2k26v82z/14.06.2016_razhavaniazha_morning_18kbps.mp3
 #wget http://dl2.musicor.ir/gemmusic/Archive2/100%20Ahange%20bartar/320%20-%20MUSICOR.IR.zip
@@ -888,6 +888,8 @@ rm -rf V*
 #for f in *.mp3 ; do rename 's/ /_/g' $f  ; done
 #find -name "* *"  | rename 's/ /_/g'
 for f in $OPENSHIFT_REPO_DIR/srv/icecast/music/album *; do mv "$f" "${f// /_}"; done
+'
+
 cd $OPENSHIFT_REPO_DIR/srv/icecast/music/album
 mkdir $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k_en
 cd $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k_en
