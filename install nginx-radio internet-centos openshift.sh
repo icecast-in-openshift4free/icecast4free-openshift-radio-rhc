@@ -893,10 +893,10 @@ mkdir $OPENSHIFT_REPO_DIR/srv/icecast/music
 mkdir $OPENSHIFT_REPO_DIR/srv/icecast/music/album
 : '
 cd $OPENSHIFT_REPO_DIR/srv/icecast/music/album
-#wget http://www.mediafire.com/download/m79b6et2k26v82z/14.06.2016_razhavaniazha_morning_18kbps.mp3
+wget http://www.mediafire.com/download/m79b6et2k26v82z/14.06.2016_razhavaniazha_morning_18kbps.mp3
 #wget http://dl2.musicor.ir/gemmusic/Archive2/100%20Ahange%20bartar/320%20-%20MUSICOR.IR.zip
 wget http://cdn.tabtaraneh.ir/94/fullalbum/60/Various%20Artists%20-%20Shadtarin%20Taranehaye%20Dahe%2060.zip
-#wget http://dl.musicjavani.com/radiojavan%201394/bahman%2094/04/Mohsen%20Chavoshi%20-%20Kalaf%20version%202.mp3
+wget http://dl.musicjavani.com/radiojavan%201394/bahman%2094/04/Mohsen%20Chavoshi%20-%20Kalaf%20version%202.mp3
 
 unzip *
 rm -rf *.zip
@@ -936,6 +936,7 @@ ls
 rm -rf $OPENSHIFT_REPO_DIR/srv/icecast/playlist2.m3u
 find $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k/ -name "*.mp3" >> $OPENSHIFT_REPO_DIR/srv/icecast/playlist2.m3u
 find $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k_en/ -name "*.mp3" >> $OPENSHIFT_REPO_DIR/srv/icecast/playlist2.m3u
+find $OPENSHIFT_REPO_DIR/srv/icecast/music/album/ -name "*.mp3" >> $OPENSHIFT_REPO_DIR/srv/icecast/playlist2.m3u
 
 find $OPENSHIFT_REPO_DIR/srv/icecast/music/album -name "*.ogg" >> $OPENSHIFT_REPO_DIR/srv/ices/playlist1.txt
 #find /music/artist/album/hel/ -name "*.mp3" > /usr/local/etc/playlist2.m3u
