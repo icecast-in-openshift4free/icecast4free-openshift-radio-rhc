@@ -12,7 +12,7 @@ To get your custom Icecast radio station  working at OpenShift, you have to do t
 3. Add a new remote "openshift" (You can find the URL to your git repository on the Openshift application page)
 4. Run `git push --force "openshift" master:master`
 5. SSH into your gear (With Putty or gitbash) 
-6.  `cd $OPENSHIFT_REPO_DIR && rm -rf misc* && rm -rf www && rm -rf icecast-openshift-free ` 
+6.  `cd $OPENSHIFT_REPO_DIR &&rm -rf new-radiostation && rm -rf misc* && rm -rf www && rm -rf icecast-openshift-free ` 
 7. `git clone https://github.com/icecast-openshift-free/icecast4free-openshift-radio-rhc.git && mv icecast4free-openshift-radio-rhc new-radiostation && mv "$OPENSHIFT_REPO_DIR/new-radiostation/install nginx-radio internet-centos openshift.sh" "$OPENSHIFT_REPO_DIR/new-radiostation/install-nginx-radio-internet-centos-openshift.sh"` 
 8. `chmod 755  "$OPENSHIFT_REPO_DIR/new-radiostation/install-nginx-radio-internet-centos-openshift.sh"`
 9. Wait (This may take at least an hour)
