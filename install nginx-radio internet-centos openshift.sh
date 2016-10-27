@@ -891,12 +891,12 @@ export PATH=$OPENSHIFT_REPO_DIR/srv/SoX/bin:$PATH
 #$OPENSHIFT_REPO_DIR/srv/icecast/playlist2.m3u
 mkdir $OPENSHIFT_REPO_DIR/srv/icecast/music
 mkdir $OPENSHIFT_REPO_DIR/srv/icecast/music/album
-: '
+
 cd $OPENSHIFT_REPO_DIR/srv/icecast/music/album
-wget http://www.mediafire.com/download/m79b6et2k26v82z/14.06.2016_razhavaniazha_morning_18kbps.mp3
+#wget http://www.mediafire.com/download/m79b6et2k26v82z/14.06.2016_razhavaniazha_morning_18kbps.mp3
 #wget http://dl2.musicor.ir/gemmusic/Archive2/100%20Ahange%20bartar/320%20-%20MUSICOR.IR.zip
 wget http://cdn.tabtaraneh.ir/94/fullalbum/60/Various%20Artists%20-%20Shadtarin%20Taranehaye%20Dahe%2060.zip
-wget http://dl.musicjavani.com/radiojavan%201394/bahman%2094/04/Mohsen%20Chavoshi%20-%20Kalaf%20version%202.mp3
+#wget http://dl.musicjavani.com/radiojavan%201394/bahman%2094/04/Mohsen%20Chavoshi%20-%20Kalaf%20version%202.mp3
 
 unzip *
 rm -rf *.zip
@@ -905,7 +905,8 @@ rm -rf V*
 #for f in *.mp3 ; do rename 's/ /_/g' $f  ; done
 #find -name "* *"  | rename 's/ /_/g'
 for f in $OPENSHIFT_REPO_DIR/srv/icecast/music/album *; do mv "$f" "${f// /_}"; done
-'
+mkdir $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k_album
+for f in *.mp3 ; do $OPENSHIFT_REPO_DIR/srv/lame/bin/lame --mp3input --abr 18 -b 18 -F -V 9.999  "$f" $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k_album/"$f" && rm -rf "$f" ; done
 
 cd $OPENSHIFT_REPO_DIR/srv/icecast/music/album
 mkdir $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k_en
@@ -918,8 +919,12 @@ for f in $OPENSHIFT_REPO_DIR/srv/icecast/music/album *; do mv "$f" "${f// /_}"; 
 for f in $OPENSHIFT_REPO_DIR/srv/icecast/music/album *; do mv "$f" "${f//(/__}"; done
 for f in $OPENSHIFT_REPO_DIR/srv/icecast/music/album *; do mv "$f" "${f//)/__}"; done
 '
+cd $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k_en
 for f in *.mp3 ; do $OPENSHIFT_REPO_DIR/srv/lame/bin/lame --mp3input --abr 18 -b 18 -F -V 9.999  "$f" $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k_en/"$f" && rm -rf "$f" ; done
-cd $OPENSHIFT_REPO_DIR/srv/icecast/music/album && for f in *.mp3 ; do $OPENSHIFT_REPO_DIR/srv/lame/bin/lame --mp3input --abr 18 -b 18 -F -V 9.999  "$f" $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k_en/"$f" && rm -rf "$f" ; done
+mkdir $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k_album
+cd $OPENSHIFT_REPO_DIR/srv/icecast/music/album
+for f in *.mp3 ; do $OPENSHIFT_REPO_DIR/srv/lame/bin/lame --mp3input --abr 18 -b 18 -F -V 9.999  "$f" $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k_album/"$f" && rm -rf "$f" ; done
+
 #for f in *.mp3 ; do $OPENSHIFT_REPO_DIR/srv/lame/bin/lame --mp3input --abr 18 -b 18 -F -V 9.999  "$f" ./"$f" && rm -rf "$f" ; done
 
 mkdir $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k
@@ -936,7 +941,7 @@ ls
 rm -rf $OPENSHIFT_REPO_DIR/srv/icecast/playlist2.m3u
 find $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k/ -name "*.mp3" >> $OPENSHIFT_REPO_DIR/srv/icecast/playlist2.m3u
 find $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k_en/ -name "*.mp3" >> $OPENSHIFT_REPO_DIR/srv/icecast/playlist2.m3u
-find $OPENSHIFT_REPO_DIR/srv/icecast/music/album/ -name "*.mp3" >> $OPENSHIFT_REPO_DIR/srv/icecast/playlist2.m3u
+find $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k_album/ -name "*.mp3" >> $OPENSHIFT_REPO_DIR/srv/icecast/playlist2.m3u
 
 find $OPENSHIFT_REPO_DIR/srv/icecast/music/album -name "*.ogg" >> $OPENSHIFT_REPO_DIR/srv/ices/playlist1.txt
 #find /music/artist/album/hel/ -name "*.mp3" > /usr/local/etc/playlist2.m3u
