@@ -439,9 +439,9 @@ if [ ! "1"="1" ]; then
         --prefix=${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/php-${PHP_VERSION}\
         --enable-fpm --with-zlib --enable-xml --enable-bcmath --with-curl --with-gd \
         --enable-zip --enable-mbstring --enable-sockets --enable-ftp #"  > $OPENSHIFT_LOG_DIR/php_install_conf.log /dev/null 2>&1 &  
-	#bash -i -c 'tail -f $OPENSHIFT_LOG_DIR/php_install_conf.log'
+	#bash -i -c "tail -f $OPENSHIFT_LOG_DIR/php_install_conf.log"
 	make && make install && make clean #"  > $OPENSHIFT_LOG_DIR/php_install.log 2>&1 &  
-	#bash -i -c 'tail -f $OPENSHIFT_LOG_DIR/php_install.log'
+	#bash -i -c "tail -f $OPENSHIFT_LOG_DIR/php_install.log"
 	#./configure --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --prefix=${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/php-5.4.27 --enable-fpm --with-zlib --enable-xml --enable-bcmath --with-curl --with-gd --enable-zip --enable-mbstring --enable-sockets --enable-ftp
 #	make && make install
 	cp  $OPENSHIFT_TMP_DIR/php-${PHP_VERSION}/php.ini-production ${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/php-${PHP_VERSION}/lib/php.ini
@@ -449,7 +449,7 @@ fi
 echo "Cleanup"
 cd $OPENSHIFT_TMP_DIR
 rm -rf *
-#PYTHON_CURRENT=`${OPENSHIFT_RUNTIME_DIR}/srv/python/bin/python -c 'import sys; print(".".join(map(str, sys.version_info[:3])))'`
+#PYTHON_CURRENT=`${OPENSHIFT_RUNTIME_DIR}/srv/python/bin/python -c "import sys; print(".".join(map(str, sys.version_info[:3])))"`
 
 #checked
 #if [ "$PYTHON_CURRENT" != "$PYTHON_VERSION" ]; then
@@ -470,13 +470,13 @@ if [ ! -d ${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/python/bin ]; then
 	
 	#./configure --prefix=$OPENSHIFT_DATA_DIR
 	./configure --prefix=${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/python && make install && make clean #"   > $OPENSHIFT_LOG_DIR/pyhton_install.log 2>&1 &
-	#bash -i -c 'tail -f $OPENSHIFT_LOG_DIR/pyhton_install.log'
+	#bash -i -c "tail -f $OPENSHIFT_LOG_DIR/pyhton_install.log"
 	#nohup sh -c "make && make install && make clean"   >  $OPENSHIFT_LOG_DIR/pyhton_install.log 2>&1 &
 	
 	export "export path"
 	export PATH=${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/python/bin:$PATH
 	nohup sh -c "export PATH=$OPENSHIFT_HOMEDIR/app-root/runtime/srv/python/bin:$PATH " > $OPENSHIFT_LOG_DIR/path_export2.log 2>&1 &
-	echo '--Install Setuptools--'
+	echo "--Install Setuptools--"
 
 	cd $OPENSHIFT_TMP_DIR
 	wget http://peak.telecommunity.com/dist/ez_setup.py
@@ -492,7 +492,7 @@ if [ ! -d ${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/python/bin ]; then
 	
 	OPENSHIFT_RUNTIME_DIR=${OPENSHIFT_HOMEDIR}/app-root/runtime
 	OPENSHIFT_REPO_DIR=${OPENSHIFT_HOMEDIR}/app-root/runtime/repo
-	echo '---Install pip---'
+	echo "---Install pip---"
 	cd $OPENSHIFT_TMP_DIR
 	curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
 	${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/python/bin/python get-pip.py
@@ -512,7 +512,7 @@ if [ ! -d ${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/python/bin ]; then
 	rm -rf trash
 	
 	cd
-	echo '---instlling tornado -----'
+	echo "---instlling tornado -----"
 	#nohup sh -c "\
 	${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/python/bin/easy_install pyPdf && \
 	${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/python/bin/easy_install pypdftk && \
