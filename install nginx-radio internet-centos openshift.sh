@@ -893,13 +893,16 @@ for f in $OPENSHIFT_REPO_DIR/srv/icecast/music/album *; do mv "$f" "${f// /_}"; 
 cd $OPENSHIFT_REPO_DIR/srv/icecast/music/album
 mkdir $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k_en
 cd $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k_en
+: '
 wget https://archive.org/compress/top60greatestenglishsongs/formats=VBR%20MP3&file=/top60greatestenglishsongs.zip
 unzip * 
 wget -r -l1 -H -t1 -nd -N -np -A.mp3 -erobots=off  https://24music.org/%D9%85%D8%AC%D9%85%D9%88%D8%B9%D9%87-%DB%B1%DB%B0%DB%B0-%D8%A2%D9%87%D9%86%DA%AF-%D8%AE%D8%A7%D8%B1%D8%AC%DB%8C-%D9%82%D8%AF%DB%8C%D9%85%DB%8C-%D8%A8%D8%B1%D8%AA%D8%B1-%D8%AF%D9%87%D9%87-%DB%B7%DB%B0/
 for f in $OPENSHIFT_REPO_DIR/srv/icecast/music/album *; do mv "$f" "${f// /_}"; done
 for f in $OPENSHIFT_REPO_DIR/srv/icecast/music/album *; do mv "$f" "${f//(/__}"; done
 for f in $OPENSHIFT_REPO_DIR/srv/icecast/music/album *; do mv "$f" "${f//)/__}"; done
+'
 for f in *.mp3 ; do $OPENSHIFT_REPO_DIR/srv/lame/bin/lame --mp3input --abr 18 -b 18 -F -V 9.999  "$f" $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k_en/"$f" && rm -rf "$f" ; done
+cd $OPENSHIFT_REPO_DIR/srv/icecast/music/album && for f in *.mp3 ; do $OPENSHIFT_REPO_DIR/srv/lame/bin/lame --mp3input --abr 18 -b 18 -F -V 9.999  "$f" $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k_en/"$f" && rm -rf "$f" ; done
 #for f in *.mp3 ; do $OPENSHIFT_REPO_DIR/srv/lame/bin/lame --mp3input --abr 18 -b 18 -F -V 9.999  "$f" ./"$f" && rm -rf "$f" ; done
 
 mkdir $OPENSHIFT_REPO_DIR/srv/icecast/music/new_18k
