@@ -415,7 +415,7 @@ sed -i 's@$OPENSHIFT_REPO_DIR@'${OPENSHIFT_REPO_DIR}'@g'  ${OPENSHIFT_HOMEDIR}/a
 cat ${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/nginx/conf/nginx.conf
 fi
 
-
+: '
 echo "INSTALL PHP"
 #if [ ! -d ${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/php-${PHP_VERSION}/sbin ]; then
 if [ ! "1"="1" ]; then
@@ -521,7 +521,7 @@ if [ ! -d ${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/python/bin ]; then
 	${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/python/bin/easy_install BeautifulSoup==3.2.1 && \	
 	${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/python/bin/easy_install mechanize==0.2.5 && \	
 fi
-
+ '
 #on centos
 #https://www.howtoforge.com/how-to-install-a-streaming-audio-server-with-icecast-2.3.3-on-centos-6.3-x86_64-linux
 
