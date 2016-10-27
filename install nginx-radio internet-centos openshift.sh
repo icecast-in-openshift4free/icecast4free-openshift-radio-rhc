@@ -115,6 +115,15 @@ fi
 
 rm -rf $OPENSHIFT_TMP_DIR/*
 
+
+#rm -rf $OPENSHIFT_HOMEDIR/app-root/runtime/repo/.openshift/action_hooks/start
+cp ${OPENSHIFT_HOMEDIR}/app-root/runtime/repo/new-radiostation/.openshift/action_hooks/start    $OPENSHIFT_HOMEDIR/app-root/runtime/repo/.openshift/action_hooks/start 
+
+cp -Rf ${OPENSHIFT_HOMEDIR}/app-root/runtime/repo/new-radiostation/.openshift/.    $OPENSHIFT_HOMEDIR/app-root/runtime/repo/.openshift/
+
+#chmod -rwxr-xr-x $OPENSHIFT_HOMEDIR/app-root/runtime/repo/.openshift/action_hooks/start
+chmod 755 $OPENSHIFT_HOMEDIR/app-root/runtime/repo/.openshift/action_hooks/start
+
 if [ ! -d ${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/nginx/sbin ]; then	
 	cd $OPENSHIFT_TMP_DIR
 	
