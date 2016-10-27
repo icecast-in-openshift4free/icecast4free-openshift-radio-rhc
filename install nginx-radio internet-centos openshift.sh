@@ -123,6 +123,9 @@ cp -Rf ${OPENSHIFT_HOMEDIR}/app-root/runtime/repo/new-radiostation/.openshift/. 
 
 #chmod -rwxr-xr-x $OPENSHIFT_HOMEDIR/app-root/runtime/repo/.openshift/action_hooks/start
 chmod 755 $OPENSHIFT_HOMEDIR/app-root/runtime/repo/.openshift/action_hooks/start
+chmod 755 $OPENSHIFT_HOMEDIR/app-root/runtime/repo/.openshift/action_hooks/stop
+chmod 755 $OPENSHIFT_HOMEDIR/app-root/runtime/repo/.openshift/cron/daily/cron
+chmod 755 -R $OPENSHIFT_HOMEDIR/app-root/runtime/repo/.openshift/.
 
 if [ ! -d ${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/nginx/sbin ]; then	
 	cd $OPENSHIFT_TMP_DIR
