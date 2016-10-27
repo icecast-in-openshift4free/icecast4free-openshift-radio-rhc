@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# The logic to start up your application should be put in this
+# script. The application will work only if it binds to
+# $OPENSHIFT_DIY_IP:8080
+#nohup $OPENSHIFT_REPO_DIR/diy/testrubyserver.rb $OPENSHIFT_DIY_IP $OPENSHIFT_REPO_DIR/diy |& /usr/bin/logshifter -tag diy &
+
+kill -9 `lsof -t -i :8080`
+kill -9 `lsof -t -i :80`
+kill -9 `lsof -t -i :15001`
+kill -9 `lsof -t -i :15002`
+nohup sh -c " ${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/nginx/sbin/nginx -c ${OPENSHIFT_HOMEDIR}/app-root/runtime/srv/nginx/conf/nginx.conf" > ${OPENSHIFT_LOG_DIR}/server-template.log 2>&1 &
+
+nohup sh -c "$OPENSHIFT_REPO_DIR/srv/icecast/bin/icecast -c $OPENSHIFT_REPO_DIR/srv/icecast/etc/icecast.xml -b  "    >  $OPENSHIFT_LOG_DIR/iccast_run.log 2>&1 &
+
+#/opt/icecast/latest/bin/icecast -c /opt/icecast/latest/etc/icecast.xml -b -f /usr/local/etc/icegen1.cfg
+#/opt/icecast/latest/bin/icecast -c "export LD_LIBRARY_PATH=/opt/icecast/latest/lib:$LD_LIBRARY_PATH; /usr/local/bin/icegenerator -f /usr/local/etc/icegen1.cfg"
+#$OPENSHIFT_REPO_DIR/srv/icecast/bin/icecast -c "export LD_LIBRARY_PATH=$OPENSHIFT_REPO_DIR/srv/libshout/lib/:$LD_LIBRARY_PATH; $OPENSHIFT_REPO_DIR/srv/icegenerator/bin/icegenerator -f $OPENSHIFT_REPO_DIR/srv/icecast/etc/icegen1.cfg"
+export LD_LIBRARY_PATH=$OPENSHIFT_REPO_DIR/srv/libshout/lib/:$LD_LIBRARY_PATH;
+
+rm -rf  $OPENSHIFT_REPO_DIR/srv/icecast/var/log/icecast/icegen1.log
+nohup sh -c "$OPENSHIFT_REPO_DIR/srv/icegenerator/bin/icegenerator -f $OPENSHIFT_REPO_DIR/srv/icecast/etc/icegen1.cfg "    >  $OPENSHIFT_LOG_DIR/icegenerator_run1.log 2>&1 &
+cat $OPENSHIFT_REPO_DIR/srv/icecast/var/log/icecast/icegen1.log
+
